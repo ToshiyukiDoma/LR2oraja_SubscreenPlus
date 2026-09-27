@@ -1,0 +1,2 @@
+package lr2touch;
+public class BattleAgentVerify {public static void main(String[] args)throws Exception{Class.forName("bms.player.beatoraja.play.BMSPlayer");if(!BattleHooks.installed)throw new AssertionError("Battle hook not installed by premain");Thread.sleep(1000);javax.swing.SwingUtilities.invokeAndWait(()->{if(Touch.ui!=null)Touch.ui.disposePanel();});System.out.println("PASS: real Java agent startup and installed BMSPlayer class transformation");System.exit(0);}}

@@ -1,0 +1,10 @@
+package lr2touch;
+import java.nio.file.*;import java.awt.*;import javax.swing.*;
+public class BattlePreview {
+ static class UI extends Touch {UI()throws Exception{super();}void postRaw(Runnable r){}void command(Action a){}void returnFocus(){}}
+ public static void main(String[] args)throws Exception{Path out=Paths.get(args[0]);Files.createDirectories(out);Path scratch=Files.createTempDirectory(Paths.get("work"),"battle-ui-");SwingUtilities.invokeAndWait(()->{UI t=null;try{Touch.preview=true;Touch.base=scratch;t=new UI();t.frame.dispose();t.frame.setUndecorated(true);t.frame.setBounds(0,0,1920,1080);t.frame.setVisible(true);t.battle=new BattleClient(t);t.showContent("battle",t.battle);t.battle.host.setText("192.168.1.20");t.battle.code.setText("123456");t.battle.connection.setText("SHOWCASE · MANUAL LAN CONNECTION");t.battle.opponent.setText("OPPONENT: PLAYER TWO (SAMPLE)");t.battle.sync.setText("CLOCK: MEASURED AFTER CONNECTING");t.status.setText("BATTLE 0.1 · SAMPLE DATA · 1920 × 1080");t.frame.validate();VisualV3.save(t.surface,out.resolve("battle-client-1080p.png"));final UI ui=t;
+ javax.swing.Timer capture=new javax.swing.Timer(300,e->{for(Window w:Window.getWindows())if(w instanceof JDialog&&w.isVisible()){JDialog d=(JDialog)w;try{VisualV3.save(d.getContentPane(),out.resolve("server-ip-keyboard.png"));}catch(Exception ex){throw new RuntimeException(ex);}d.dispose();}});capture.setRepeats(false);capture.start();TouchWidgets.text(t,"SERVER IP",t.battle.host);System.out.println("PASS: Battle tab and manual IP touch keyboard rendered");
+ }catch(Exception e){throw new RuntimeException(e);}finally{if(t!=null)t.disposePanel();}});
+ try(BattleServer server=new BattleServer(0,0,"123456",Paths.get("work/battle-release/Subscreen/battle-overlay"))){SwingUtilities.invokeAndWait(()->{server.window();for(Window w:Window.getWindows())if(w instanceof JFrame&&((JFrame)w).getTitle().contains("LAN Battle Server")){JFrame f=(JFrame)w;f.validate();try{VisualV3.save(f.getContentPane(),out.resolve("battle-server.png"));}catch(Exception ex){throw new RuntimeException(ex);}f.dispose();}});}
+ }
+}

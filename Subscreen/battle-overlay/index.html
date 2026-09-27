@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LR2oraja Battle Score</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+ <header><div id="title">Waiting for a chart</div><div id="artist"></div><div id="table"></div></header>
+ <section class="scores"><article><div class="name" id="p1">Player 1</div><div class="score" id="ex1">0</div><span>EX SCORE</span></article><article class="difference"><div>P1 − P2</div><div id="difference">0</div><span id="phase">LOBBY</span></article><article><div class="name" id="p2">Player 2</div><div class="score" id="ex2">0</div><span>EX SCORE</span></article></section>
+ <footer id="status">Connecting to local battle server…</footer>
+</main><script>
+// All remote text goes through textContent; player/chart names cannot inject HTML.
+const set=(id,value)=>document.getElementById(id).textContent=value;
+function score(id,value){const el=document.getElementById(id),s=String(Math.max(0,Number(value)||0)),old=el.dataset.value||'';if(old===s)return;if(old.length!==s.length){el.replaceChildren(...s.split('').map(()=>{const wheel=document.createElement('span');wheel.className='wheel';wheel.setAttribute('aria-hidden','true');const reel=document.createElement('span');reel.className='reel';for(let d=0;d<10;d++){const cell=document.createElement('span');cell.textContent=d;reel.append(cell);}wheel.append(reel);return wheel;}));requestAnimationFrame(()=>[...el.children].forEach((wheel,i)=>wheel.firstChild.style.transform=`translateY(-${Number(s[i])}em)`));}else [...el.children].forEach((wheel,i)=>wheel.firstChild.style.transform=`translateY(-${Number(s[i])}em)`);el.dataset.value=s;el.setAttribute('aria-label',s);}
+async function refresh(){try{const r=await fetch('state.json',{cache:'no-store'});if(!r.ok)throw Error();const s=await r.json();set('title',s.title||'Waiting for a chart');set('artist',s.artist);set('table',s.table);s.players.forEach((p,i)=>{set('p'+(i+1),p.name);score('ex'+(i+1),p.ex);});set('difference',s.singlePlayer?'TEST':(s.difference>0?'+':'')+s.difference);set('phase',s.phase);set('status',s.message);document.body.classList.remove('offline');}catch(e){set('status','SERVER OFFLINE · SCORES MAY BE STALE');document.body.classList.add('offline');}finally{setTimeout(refresh,200);}}
+refresh();
+</script></body></html>

@@ -1,0 +1,7 @@
+/* Edit these colors, fonts and sizes. OBS Browser Source: 1280 x 320. */
+:root{--panel:rgba(15,27,41,.94);--text:#eaf0f8;--muted:#a9bccd;--accent:#8cd7cb}
+*{box-sizing:border-box}body{margin:0;background:transparent;color:var(--text);font:18px "Segoe UI",sans-serif}
+main{padding:14px 28px;background:var(--panel);border-radius:18px;min-height:310px}
+header{text-align:center}#title{font-size:29px;font-weight:700;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#artist,#table{color:var(--muted);font-size:16px}
+.scores{display:grid;grid-template-columns:1fr 220px 1fr;align-items:center;text-align:center;margin-top:8px}.name{font-size:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.score{font-size:62px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}.scores>article>span{font-size:13px;letter-spacing:2px;color:var(--muted)}.difference{color:var(--accent)}#difference{font-size:38px;font-weight:700;font-variant-numeric:tabular-nums}footer{text-align:center;color:var(--muted);font-size:14px;margin-top:7px}.offline .score{opacity:.45}
+.wheel{display:inline-block;height:1em;overflow:hidden;vertical-align:top;width:.62em}.reel{display:flex;flex-direction:column;line-height:1em;transition:transform .18s cubic-bezier(.2,.75,.25,1);will-change:transform}.reel>span{height:1em;flex:none}
